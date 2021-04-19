@@ -1,0 +1,33 @@
+---
+- name: Customize a host
+  hosts: localhost
+  connection: local
+  gather_facts: false
+
+  vars:
+    brew_packages:
+      - ripgrep
+
+  
+  tasks:
+
+    - name: Install brew packages
+      homebrew:
+        name:     "{{ item }}"
+        state:    present
+      loop: "{{ brew_packages }}"
+
+        
+
+#    - name: set vi mode
+#      lineinfile:
+#        path: ~/.bashrc
+#        line: "set -o vi"
+#
+#    - name: Start customizing vim
+#      lineinfile:
+#        path:     ~/.vimrc
+#        create:   yes
+#        line: |
+#          set tabstop=2
+#          set expandtab

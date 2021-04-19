@@ -1,0 +1,12 @@
+---
+- name: Customize a host
+  hosts: localhost
+  connection: local
+  gather_facts: false
+
+  tasks:
+
+    - name: Just a simple debug
+      debug:
+        msg: Hello from Frank
+...

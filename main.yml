@@ -1,0 +1,52 @@
+---
+- name: Customize a host
+  hosts: localhost
+  connection: local
+  gather_facts: false
+  become: false
+
+  vars:
+    base_packages:
+      - vim
+      - zsh
+      - tree
+
+  tasks:
+
+    - name: Just a simple debug
+      debug:
+        msg: Hello from Frank
+        verbosity: 2
+      tags:
+        - test
+
+    - name: Install toolchain
+      package:
+        name: "{{ package }}"
+        state: present
+      loop: "{{ base_packages }}"
+      loop_control:
+        loop_var: package  
+      become: true  
+
+# TODO: 
+#    - name: Install oh-my-zsh    TODO: 
+#      command: '/usr/bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/ohmyzsh/ohmyzsh/master/tools/install.sh)"'
+
+    - name: set vi mode
+      lineinfile:
+        path: ~/.bashrc
+        line: "set -o vi"
+
+    - name: Start customizing vim
+      lineinfile:
+        path:     ~/.vimrc
+        create:   yes
+        line: |
+          set tabstop=2
+          set expandtab
+          set nohlsearch
+          set softtabstop=2
+          set shiftwidth=2
+
+
